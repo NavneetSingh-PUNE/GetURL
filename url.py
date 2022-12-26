@@ -18,22 +18,36 @@ def url():
 def statcode():
     g=open("allurls.txt","r+")
     p=g.readlines()
+    print("FULL URL\t\t\tSERVER TYPE\t\tREDIRECTION STATUS")
     for i in p:
         r=i.strip("\n")
         yum=str(requests.get(r))
         yum2=requests.get(r)
         try:
-            fullurl=r+"\t"+str(yum2.status_code)+"\t"+str(yum2.headers['Server']+"\t"+str(yum2.is_redirect))
+            fullurl=r+"\t\t\t"+str(yum2.status_code)+"\t"+str(yum2.headers['Server']+"\t"+str(yum2.is_redirect))
             print(fullurl)
         except Exception as ex:
             print("No server, dead website", ex)
         else:
-            fullurl=r+"\t"+str(yum2.status_code)+"\t"+"NULL"
+            fullurl=r+"\t\t\t"+str(yum2.status_code)+"\t"+"NULL"
             print(fullurl)
        # f=open("statcodeurl.txt","w+")
        # f.writelines(fullurl)
        # f.close()
     g.close()
 
+def httponly():
+    g=open("allurls.txt","r+")
+    p=g.readlines()
+    for i in p:
+        if 'http://' in i:
+            r=i.strip("\n")
+            yum=requests.get(r)
+            print(r,"\t",yum)
+        else:
+            print("https")
+    g.close()
+
 url()
-statcode()
+#statcode()
+httponly()
